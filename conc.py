@@ -141,13 +141,13 @@ col1, col2, col3 = st.columns(3)
 
 if st.session_state.corpus_upload is None:
     with col1:
-        st.markdown("__Korpusstørrelse:__ " + str(len(corpus)) + " dokumenter. " + "Last ned " + get_table_download_link(excel_corpus, link_content="korpusdefinisjon.", filename="corpus.xlsx"), unsafe_allow_html=True)
+        st.markdown("__Korpusstørrelse:__ " + str(len(corpus)) + " dokumenter. " + "Eksporter " + get_table_download_link(excel_corpus, link_content="korpusdefinisjon.", filename="corpus.xlsx"), unsafe_allow_html=True)
 else:
     with col1:
         st.markdown("__Korpusstørrelse:__ " + str(len(corpus)) + " dokumenter (__opplastet korpusdefinsjon__). ",  unsafe_allow_html=True)
 
 with col2:
-    st.markdown("__Treff__: " + str(conc.size) + " treff, viser " + str(show_number) + "." + " Last ned " + get_table_download_link(excel_conc, link_content="konkordanser", filename="concordances.xlsx") + ".", unsafe_allow_html=True)
+    st.markdown("__Treff__: " + str(conc.size) + " treff, viser " + str(show_number) + "." + " Eksporter " + get_table_download_link(excel_conc, link_content="konkordanser", filename="concordances.xlsx") + ".", unsafe_allow_html=True)
 
 if conc.size > limit_conc:
     with col3:
