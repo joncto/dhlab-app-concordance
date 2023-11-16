@@ -4,6 +4,9 @@ FROM python:3.10-slim
 # set the working directory in the container
 WORKDIR /code
 
+ENV PORT=8501
+ENV BASE_URL_PATH="/konkordans"
+
 # copy requirements
 COPY requirements.txt /code
 
@@ -14,4 +17,4 @@ RUN pip install -r requirements.txt
 COPY . /code
 
 # command to run on container start
-CMD streamlit run conc.py --server.port 5001 --server.baseUrlPath /konkordans
+CMD streamlit run conc.py --server.port $PORT --server.baseUrlPath $BASE_URL_PATH
