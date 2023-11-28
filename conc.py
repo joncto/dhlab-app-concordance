@@ -7,7 +7,7 @@ import base64
 from io import BytesIO
 from random import sample
 
-doctypes = {'Alle dokumenter': 'all', 'Aviser': 'digavis', 'Bøker': 'digibok', 'Brev og manuskripter': 'digimanus' , 'Tidsskrift': 'digitidsskrift', 'Stortingsdokumenter': 'digistorting'}
+doctypes = {'Alle dokumenter': 'all', 'Aviser': 'digavis', 'Bøker': 'digibok', 'Brev og manuskripter': 'digimanus' , 'Tidsskrift': 'digitidsskrift', 'Stortingsdokumenter': 'digistorting', 'Helsekorpus': 'SNOMED*'}
 
 # ADAPTED FROM: https://discuss.streamlit.io/t/how-to-download-file-in-streamlit/1806
 def get_table_download_link(content, link_content="XLSX", filename="corpus.xlsx"):
