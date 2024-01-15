@@ -57,6 +57,9 @@ def print_concordances(conc):
         urn = row[1]["urn"]
 
         if urn.startswith('URN:'):
+            
+            corpus.rename(columns={"authors" : "author"}, inplace=True)
+            
             metadata = corpus[corpus["urn"] == urn][['title', 'author', 'year', 'timestamp']]
             metadata = metadata.iloc[0]
 
@@ -128,6 +131,8 @@ if st.session_state.corpus_upload is None:
         corpus = get_corpus(doctype=doctype, from_year=from_year, to_year=to_year, limit=limit, freetext=freetext, fulltext=fulltext)
 else:
     corpus = pd.read_excel(uploaded_corpus)
+    
+
 
 title = st.sidebar.title("Parametre for konkordans")
 
