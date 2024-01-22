@@ -76,7 +76,7 @@ def print_concordances(conc):
             url = "https://urn.nb.no/%s" % (urn)
             link = "<a href='%s' target='_blank'>%s – %s – %s</a>" % (url, metadata["title"], metadata["author"], timestamp)
         else:
-            metadata = corpus[corpus["urn"] == urn][['city', 'langs', 'timestamp']]
+            metadata = corpus[corpus["urn"] == urn][['city', 'language', 'timestamp']]
             metadata = metadata.iloc[0]
             timestamp = metadata["timestamp"]
             url = urn
