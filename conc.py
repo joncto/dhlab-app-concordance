@@ -60,7 +60,7 @@ def print_concordances(conc):
             
             corpus.rename(columns={"authors" : "author"}, inplace=True)
             
-            metadata = corpus[corpus["urn"] == urn][['title', 'author', 'year', 'timestamp']]
+            metadata = corpus[corpus["urn"] == urn]
             metadata = metadata.iloc[0]
 
             if 'digavis' in urn:
@@ -76,7 +76,7 @@ def print_concordances(conc):
             url = "https://urn.nb.no/%s" % (urn)
             link = "<a href='%s' target='_blank'>%s – %s – %s</a>" % (url, metadata["title"], metadata["author"], timestamp)
         else:
-            metadata = corpus[corpus["urn"] == urn][['city', 'language', 'timestamp']]
+            metadata = corpus[corpus["urn"] == urn]
             metadata = metadata.iloc[0]
             timestamp = metadata["timestamp"]
             url = urn
