@@ -72,7 +72,8 @@ def print_concordances(conc):
             url = "https://urn.nb.no/%s" % (urn)
             link = "<a href='%s' target='_blank'>%s – %s – %s</a>" % (url, metadata["title"], metadata["authors"], timestamp)
         elif metadata["doctype"] == "nettavis":
-            link = "<b>%s - %s (%s)</b>" % (metadata["title"], metadata["oaiid"], timestamp)
+            url = "https://www.nb.no/samlingen/nettarkivet/tilgang-til-nettarkivet/"
+            link = "**%s** [%s](%s) (%s)" % (metadata["title"], metadata["oaiid"], url, timestamp)
         elif metadata["doctype"].startswith("SNOMED"):
             url = urn
             link = "<a href='%s' target='_blank'>%s (%s)</a>" % (url, url, timestamp)
