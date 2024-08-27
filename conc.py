@@ -7,6 +7,8 @@ import base64
 from io import BytesIO
 from random import sample
 
+st.set_page_config(page_title="NB DH-LAB – Konkordanser", layout='wide')
+
 doctypes = {'Alle dokumenter': 'all', 'Aviser': 'digavis', 'Bøker': 'digibok', 'Brev og manuskripter': 'digimanus' , 'Tidsskrift': 'digitidsskrift', 'Stortingsdokumenter': 'digistorting', 'Nettarkiv (nettavis)': 'nettavis', 'Nettarkiv (helsekorpus)': 'SNOMED*'}
 
 # ADAPTED FROM: https://discuss.streamlit.io/t/how-to-download-file-in-streamlit/1806
@@ -31,7 +33,7 @@ def to_excel(df, index_arg=False):
     processed_data = output.getvalue()
     return processed_data
 
-@st.cache(suppress_st_warning=True, show_spinner = False)
+@st.cache_data(show_spinner = False)
 def get_corpus(doctype="digibok", from_year=1990, to_year=2020, limit=1000, freetext=None, fulltext=None):
     try:
         if doctype == "SNOMED*":
@@ -43,7 +45,7 @@ def get_corpus(doctype="digibok", from_year=1990, to_year=2020, limit=1000, free
         st.stop()
     return corpus
 
-@st.cache(suppress_st_warning=True, show_spinner = False)
+@st.cache_data(show_spinner = False)
 def get_concordances(corpus, query, limit=5000, window=20):
     try:
         conc = cc.Concordance(corpus, query, limit=5000, window=window)
@@ -55,39 +57,32 @@ def get_concordances(corpus, query, limit=5000, window=20):
 def print_concordances(conc):
     for row in conc.show(n=min(limit_conc, conc.size), style = False).iterrows():
         urn = row[1]["urn"]
+        metadata = corpus[corpus["urn"] == urn]
+        metadata = metadata.iloc[0]
+        timestamp = metadata["timestamp"]
 
         if urn.startswith('URN:'):
-            
-            corpus.rename(columns={"authors" : "author"}, inplace=True)
-            
-            metadata = corpus[corpus["urn"] == urn]
-            metadata = metadata.iloc[0]
-
-            if 'digavis' in urn:
-                timestamp = metadata["timestamp"]
-            else:
+            if 'digibok' in urn or 'digitidsskrift' in urn:
                 timestamp = metadata["year"]
-
-            if metadata["author"] is None:
-                metadata["author"] = ""
+            if metadata["authors"] is None:
+                metadata["authors"] = ""
             if metadata["title"] is None:
                 metadata["title"] = ""
 
             url = "https://urn.nb.no/%s" % (urn)
-            link = "<a href='%s' target='_blank'>%s – %s – %s</a>" % (url, metadata["title"], metadata["author"], timestamp)
-        else:
-            metadata = corpus[corpus["urn"] == urn]
-            metadata = metadata.iloc[0]
-            timestamp = metadata["timestamp"]
+            link = "<a href='%s' target='_blank'>%s – %s – %s</a>" % (url, metadata["title"], metadata["authors"], timestamp)
+        elif metadata["doctype"] == "nettavis":
+            link = "<b>%s - %s (%s)</b>" % (metadata["title"], metadata["oaiid"], timestamp)
+        elif metadata["doctype"].startswith("SNOMED"):
             url = urn
             link = "<a href='%s' target='_blank'>%s (%s)</a>" % (url, url, timestamp)
+        else:
+            link  = urn
 
         conc_markdown = row[1]["concordance"].replace('<b>', '**')
         conc_markdown = conc_markdown.replace('</b>', '**')
         html = "%s %s" % (link, conc_markdown)
         st.markdown(html, unsafe_allow_html=True)
-
-st.set_page_config(page_title="NB DH-LAB – Konkordanser", layout='wide')
 
 # Streamlit stuff
 st.title('Konkordanser')
