@@ -9,7 +9,7 @@ from random import sample
 
 st.set_page_config(page_title="NB DH-LAB – Konkordanser", layout='wide')
 
-doctypes = {'Alle dokumenter': 'all', 'Aviser': 'digavis', 'Bøker': 'digibok', 'Brev og manuskripter': 'digimanus' , 'Tidsskrift': 'digitidsskrift', 'Stortingsdokumenter': 'digistorting', 'Nettarkiv (nettavis)': 'nettavis', 'Nettarkiv (helsekorpus)': 'SNOMED*'}
+doctypes = {'Alle dokumenter': 'all', 'Aviser': 'digavis', 'Bøker': 'digibok', 'Brev og manuskripter': 'digimanus' , 'Tidsskrift': 'digitidsskrift', 'Stortingsdokumenter': 'digistorting', 'Kudos (Kunnskapsdokumenter i offentlig sektor)': 'kudos', 'Nettarkiv (nettavis)': 'nettavis', 'Nettarkiv (helsekorpus)': 'SNOMED*'}
 
 # ADAPTED FROM: https://discuss.streamlit.io/t/how-to-download-file-in-streamlit/1806
 def get_table_download_link(content, link_content="XLSX", filename="corpus.xlsx"):
