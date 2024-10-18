@@ -59,21 +59,36 @@ def print_concordances(conc):
         urn = row[1]["urn"]
         metadata = corpus[corpus["urn"] == urn]
         metadata = metadata.iloc[0]
-        timestamp = metadata["timestamp"]
+
+        try:
+            timestamp = metadata["timestamp"]
+        except:
+            timestamp = ""
+        try:
+            authors = metadata["authors"]
+        except:
+            authors = ""
+        try:
+            title = metadata["title"]
+        except:
+            title = ""
+        try:
+            year = metadata["year"]
+        except:
+            year = ""
+        try:
+            oaiid = metadata["oaiid"]
+        except:
+            oaiid = ""
 
         if urn.startswith('URN:'):
             if 'digibok' in urn or 'digitidsskrift' in urn:
-                timestamp = metadata["year"]
-            if metadata["authors"] is None:
-                metadata["authors"] = ""
-            if metadata["title"] is None:
-                metadata["title"] = ""
-
+                timestamp = year
             url = "https://urn.nb.no/%s" % (urn)
-            link = "<a href='%s' target='_blank'>%s – %s – %s</a>" % (url, metadata["title"], metadata["authors"], timestamp)
+            link = "<a href='%s' target='_blank'>%s – %s – %s</a>" % (url, title, authors, timestamp)
         elif metadata["doctype"] == "nettavis":
             url = "https://www.nb.no/samlingen/nettarkivet/tilgang-til-nettarkivet/"
-            link = "**%s** [%s](%s) (%s)" % (metadata["title"], metadata["oaiid"], url, timestamp)
+            link = "**%s** [%s](%s) (%s)" % (title, oaiid, url, timestamp)
         elif metadata["doctype"].startswith("SNOMED"):
             url = urn
             link = "<a href='%s' target='_blank'>%s (%s)</a>" % (url, url, timestamp)
