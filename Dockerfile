@@ -17,4 +17,4 @@ RUN pip install -r requirements.txt
 COPY . /code
 
 # command to run on container start
-CMD streamlit run conc.py --server.port $PORT --server.baseUrlPath $BASE_URL_PATH
+CMD streamlit run conc.py --browser.gatherUsageStats=False --server.port $PORT --server.baseUrlPath $BASE_URL_PATH
